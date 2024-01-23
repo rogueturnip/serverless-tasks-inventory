@@ -116,7 +116,7 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
           .values(inventoryCategoryEntries)
           .execute();
       }
-      return await db
+      return await trx
         .selectFrom("inventory as i")
         .select([
           "i.id",

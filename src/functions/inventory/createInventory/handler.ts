@@ -10,6 +10,17 @@ const user_id = "e2881cae-8d74-4ae3-9742-0693f54eba39";
 const inputSchema = z.object({
   title: z.string().min(3).max(255),
   description: z.string().optional(),
+  condition: z.enum(["new", "used", "poor", "fair", "good"]).optional(),
+  current_price: z.number().positive().optional(),
+  purchase_price: z.number().positive().optional(),
+  purchase_location: z.string().optional(),
+  quantity: z.number().positive().optional(),
+  model_id: z.string().optional(),
+  serial_number: z.string().optional(),
+  brand_id: z.string().uuid().optional(),
+  brand_other: z.string().optional(),
+  warranty_expires_at: z.date().optional(),
+  categoryIds: z.array(z.string().uuid()).optional(),
   // Additional or different fields can be added here based on your inventory schema
 });
 
@@ -18,6 +29,16 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
     const {
       title,
       description,
+      condition,
+      current_value,
+      purchase_price,
+      purchase_location,
+      quantity,
+      model_id,
+      serial_number,
+      brand_id,
+      brand_other,
+      warranty_expires_at,
       categoryIds = [],
       // Add or remove fields as necessary
     } = JSON.parse(event.body);
@@ -40,8 +61,18 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
           .values({
             title,
             description,
-            building_id,
+            condition,
+            current_value,
+            purchase_price,
+            purchase_location,
+            quantity,
+            model_id,
+            serial_number,
+            brand_id,
+            brand_other,
+            warranty_expires_at,
             created_by: user_id,
+            building_id,
             // Add other necessary fields here
           })
           .returning("id")

@@ -5,7 +5,7 @@ export default {
   events: [
     {
       http: {
-        method: "patch",
+        method: "post",
         path: "/tasks/{id}/action",
       },
     },

@@ -39,7 +39,7 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
       brand_id,
       brand_other,
       warranty_expires_at,
-      categoryIds = [],
+      category_ids = [],
       // Add or remove fields as necessary
     } = JSON.parse(event.body);
 
@@ -78,8 +78,8 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
           .returning("id")
           .executeTakeFirstOrThrow();
 
-        if (categoryIds && categoryIds.length > 0) {
-          const inventoryCategoryEntries = categoryIds.map(
+        if (category_ids && category_ids.length > 0) {
+          const inventoryCategoryEntries = category_ids.map(
             (categoryId: string) => ({
               inventory_id: inventoryItem.id,
               category_id: categoryId,

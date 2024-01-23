@@ -27,6 +27,7 @@ const inputSchema = z
     warranty_expires_at: z.date().optional(),
     categoryIds: z.array(z.string().uuid()).optional(),
     display_image: z.string().uuid().optional(),
+    category_ids: z.array(z.string().uuid()).optional(),
     // Additional or different fields can be added here based on your inventory schema
   })
   .refine(atLeastOneDefined, {
@@ -57,7 +58,7 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
       brand_other,
       warranty_expires_at,
       display_image,
-      categoryIds = [],
+      category_ids = [],
       // Add or remove fields as necessary
     } = JSON.parse(event.body);
 
@@ -103,11 +104,11 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
         .execute();
 
       // Then, insert new associations
-      if (categoryIds && categoryIds.length > 0) {
-        const inventoryCategoryEntries = categoryIds.map(
-          (categoryId: string) => ({
+      if (category_ids && category_ids.length > 0) {
+        const inventoryCategoryEntries = category_ids.map(
+          (category_id: string) => ({
             inventory_id: inventoryId,
-            category_id: categoryId,
+            category_id: category_id,
           })
         );
 

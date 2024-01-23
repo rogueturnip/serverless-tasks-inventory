@@ -15,7 +15,7 @@ const inputSchema = z
     title: z.string().min(3).max(255).optional(),
     description: z.string().optional(),
     schedule: z.string().optional(),
-    categoryIds: z.array(z.string().uuid()).optional(),
+    category_ids: z.array(z.string().uuid()).optional(),
   })
   .refine(atLeastOneDefined, {
     message: "At least one field must be defined",
@@ -24,7 +24,7 @@ const inputSchema = z
 export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
   try {
     const taskId = event.pathParameters?.id;
-    const { title, description, schedule, display_image, categoryIds } =
+    const { title, description, schedule, display_image, category_ids } =
       JSON.parse(event.body);
 
     if (!taskId) {
@@ -60,7 +60,7 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
         .execute();
 
       // Then, insert new associations
-      if (categoryIds && categoryIds?.length > 0) {
+      if (category_ids && category_ids?.length > 0) {
         // Update category associations in task_category table
         // First, delete existing associations
 
@@ -69,9 +69,9 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
           .where("task_id", "=", taskId)
           .execute();
 
-        const taskCategoryEntries = categoryIds.map((categoryId) => ({
+        const taskCategoryEntries = category_ids.map((category_id) => ({
           task_id: taskId,
-          category_id: categoryId,
+          category_id: category_id,
         }));
 
         await trx

@@ -11,7 +11,7 @@ const inputSchema = z.object({
   title: z.string().min(3).max(255),
   description: z.string().optional(),
   schedule: z.string().optional(),
-  categoryIds: z.array(z.string().uuid()).optional(),
+  category_ids: z.array(z.string().uuid()).optional(),
 });
 
 export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
@@ -20,7 +20,7 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
       title,
       description,
       schedule,
-      categoryIds = [],
+      category_ids = [],
     } = JSON.parse(event.body);
 
     // Validate input
@@ -47,10 +47,10 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayEvent) => {
         .executeTakeFirstOrThrow();
 
       // Insert category associations in task_category table
-      if (categoryIds && categoryIds.length > 0) {
-        const taskCategoryEntries = categoryIds.map((categoryId: string) => ({
+      if (category_ids && category_ids.length > 0) {
+        const taskCategoryEntries = category_ids.map((category_id: string) => ({
           task_id: task.id,
-          category_id: categoryId,
+          category_id: category_id,
         }));
 
         await trx

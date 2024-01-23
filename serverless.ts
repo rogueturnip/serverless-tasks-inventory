@@ -16,6 +16,7 @@ import getTasks from "@functions/tasks/getTasks";
 import getTasksByParent from "@functions/tasks/getTasksByCategoryParent";
 import removeImage from "@functions/tasks/removeImage";
 import removeInvImage from "@functions/inventory/removeImage";
+import taskAction from "@functions/tasks/taskAction";
 import updateImage from "@functions/tasks/updateImage";
 import updateInvImage from "@functions/inventory/updateImage";
 import updateInventory from "@functions/inventory/updateInventory";
@@ -61,6 +62,7 @@ const serverlessConfiguration: AWS = {
     deleteInventory,
     getInventoriesBySpace,
     getInventoriesByParentCategory,
+    taskAction,
   },
   package: { individually: true },
   custom: {
